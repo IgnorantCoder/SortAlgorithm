@@ -6,7 +6,7 @@
 namespace {
     void insertion_sort(int* arr, int n, int gear) {
         for (int i = 0; i < n; i += gear) {
-            for (int j = i; j > 0; j -= gear) {
+            for (int j = i; j > gear; j -= gear) {
                 if (arr[j - gear] > arr[j]) {    //predictor
                     break;
                 }
