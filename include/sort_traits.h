@@ -9,6 +9,7 @@ namespace alg {
         Selection,
         Insertion,
         Quick,
+        Shell,
         Size
     };
 
@@ -55,4 +56,14 @@ namespace alg {
             return;
         }
     };
+
+    template <>
+    struct sort_traits<Strategy::Shell> {
+        static void apply(int* arr, int n)
+        {
+            shell_sort(arr, n);
+            return;
+        }
+    };
+
 }

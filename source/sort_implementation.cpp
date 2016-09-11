@@ -1,6 +1,33 @@
 #include "sort_implementation.h"
 
 #include <utility>  //for std::swap
+#include <cmath>
+
+namespace {
+    void insertion_sort(int* arr, int n, int gear) {
+        for (int i = 0; i < n; i += gear) {
+            for (int j = i; j > 0; j -= gear) {
+                if (arr[j - gear] > arr[j]) {    //predictor
+                    break;
+                }
+                std::swap(arr[j - gear], arr[j]);
+            }
+        }
+    }
+
+    int exponentiation(int a, int x)
+    {
+        if (x == 0) {
+            return 1;
+        }
+        return a * exponentiation(a, x - 1);
+    }
+
+    int half(int a)
+    {
+        return a >> 1;
+    }
+}
 
 namespace alg {
     void bubble_sort(int* arr, int n) {
@@ -26,14 +53,8 @@ namespace alg {
     }
 
     void insertion_sort(int* arr, int n) {
-        for (int i = 1; i < n; ++i) {
-            for (int j = i; j > 0; --j) {
-                if (arr[j - 1] > arr[j]) {    //predictor
-                    break;
-                }
-                std::swap(arr[j - 1], arr[j]);
-            }
-        }
+        ::insertion_sort(arr, n, 1);
+        return;
     }
 
     void quick_sort(int* arr, int n) {
@@ -81,5 +102,19 @@ namespace alg {
 
         quick_sort(&arr[0], r + 1);
         quick_sort(&arr[l], n - l);
+    }
+
+    void shell_sort(int* arr, int n) {
+        static const double log3 = std::log(3);
+        const int gear_idx = static_cast<int>(std::log(2 * n + 1) / log3 - 1);
+
+        int gear = half(exponentiation(3, gear_idx + 1) - 1);
+        static const auto iterate = [](int& g) -> void { g = (g - 1) / 3; };
+
+        for (;gear > 0; iterate(gear)) {
+            for (int i = 0; i < gear; ++i) {
+                ::insertion_sort(arr + i, n - i, gear);
+            }
+        }
     }
 }
