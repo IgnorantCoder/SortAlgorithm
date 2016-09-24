@@ -46,5 +46,12 @@ int main()
         print(a, size);
     }
 
+    {
+        std::size_t size = 8;
+        int a[] = { 8, 4, 3, 7, 6, 5, 2, 1 };
+        alg::sort<alg::Strategy::Merge>(a, size);
+        print(a, size);
+    }
+
     return 0;
 }

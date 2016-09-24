@@ -6,4 +6,5 @@ namespace alg {
     void insertion_sort(int* arr, int n);
     void quick_sort(int* arr, int n);
     void shell_sort(int* arr, int n);
+    void merge_sort(int* arr, int n);
 }

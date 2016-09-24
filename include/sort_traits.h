@@ -10,6 +10,7 @@ namespace alg {
         Insertion,
         Quick,
         Shell,
+        Merge,
         Size
     };
 
@@ -62,6 +63,15 @@ namespace alg {
         static void apply(int* arr, int n)
         {
             shell_sort(arr, n);
+            return;
+        }
+    };
+
+    template <>
+    struct sort_traits<Strategy::Merge> {
+        static void apply(int* arr, int n)
+        {
+            merge_sort(arr, n);
             return;
         }
     };

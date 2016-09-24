@@ -2,6 +2,8 @@
 
 #include <utility>  //for std::swap
 #include <cmath>
+#include <memory>
+#include <limits>
 
 namespace {
     void insertion_sort(int* arr, int n, int gear) {
@@ -15,7 +17,7 @@ namespace {
         }
     }
 
-    int exponentiation(int a, int x)
+    int exponentiation(const int a, const int x)
     {
         if (x == 0) {
             return 1;
@@ -23,9 +25,35 @@ namespace {
         return a * exponentiation(a, x - 1);
     }
 
-    int half(int a)
+    int half(const int a)
     {
         return a >> 1;
+    }
+
+    std::unique_ptr<int[]> add_sentinel(int const* arr, const int n)
+    {
+        auto ret = std::make_unique<int[]>(n + 1);
+        for (int i = 0; i < n; ++i) {
+            ret[i] = arr[i];
+        }
+
+        static const int sentinel = std::numeric_limits<int>::min();
+        ret[n] = sentinel;
+
+        return ret;
+    }
+
+    void merge(int* arr, const int n)
+    {
+        const auto m = half(n);
+        const auto array0 = add_sentinel(arr, m);
+        const auto array1 = add_sentinel(arr + m, n - m);
+        int i0 = 0;
+        int i1 = 0;
+        for (int i = 0; i < n; ++i) {
+            arr[i] = array0[i0] > array1[i1] ? array0[i0++] : array1[i1++];
+        }
+        return;
     }
 }
 
@@ -116,5 +144,16 @@ namespace alg {
                 ::insertion_sort(arr + i, n - i, gear);
             }
         }
+    }
+
+    void merge_sort(int* arr, int n)
+    {
+        if (n > 1) {
+            const auto m = n >> 1;
+            merge_sort(arr, m);
+            merge_sort(arr + m, n - m);
+            ::merge(arr, n);
+        }
+        return;
     }
 }

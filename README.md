@@ -2,7 +2,6 @@
 This repository is for studing sort algorithm.
 
 ## ToDo
-- Merge sort
 - Heap sort
 
 ## Finished
@@ -11,3 +10,4 @@ This repository is for studing sort algorithm.
 - Insertion sort
 - Quick sort
 - Shell sort
+- Merge sort
